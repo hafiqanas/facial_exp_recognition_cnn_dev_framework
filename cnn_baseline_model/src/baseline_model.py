@@ -405,6 +405,60 @@ def test_CNN_K_Means(x_test, y_test, model_save_name, test_set_name):
     )
 
     plt.savefig("../results/train_" + str(model_save_name) + "-test_" + str(test_set_name) + ".png")
+    
+def test_ABAW2020_CNN_K_Means(x_test, y_test, model_save_name, test_set_name):
+
+    conf_mat = []
+    conf_mat_avg = 0
+    cv_scores = []
+    test_amount = 1
+
+    #model = model_generate_CNN()
+    model = test_model()
+
+    model.load_weights('../model/CNN_model_' + model_save_name + '.h5')
+
+    for i in range(test_amount):
+
+        y_pred = model.predict_classes(x_test)
+        y_true = [0] * len(y_pred)
+
+        for i in range(0, len(y_test)):
+            max_index = np.argmax(y_test[i])
+            y_true[i] = max_index
+
+        # Draw the confusion matrix
+        conf_mat.append(confusion_matrix(y_true, y_pred, \
+            labels=range(NUM_CLASSES)))
+
+        # Evaluate the model on the test set
+        scores = model.evaluate(x_test, y_test)
+        print("\n%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
+
+        ac = float("{0:.3f}".format(scores[1]*100))
+        cv_scores.append(ac)
+
+    acc_score_avg = np.mean(cv_scores)
+    conf_mat = np.array(conf_mat)
+
+    for i in range(len(conf_mat)):
+        conf_mat_avg += conf_mat[i]
+
+    conf_mat_avg = conf_mat_avg / test_amount
+
+    #print(y_true)
+    print(y_pred)
+
+    prediction_filename = test_set_name + "_predictions.txt"
+    pred_list = y_pred.tolist()
+
+    os.chdir("../results")
+    f = open(prediction_filename, "w+")
+    f.write("Neutral,Anger,Disgust,Fear,Happiness,Sadness,Surprise" + "\n")
+    for i in range(len(pred_list)):
+        f.write(str(pred_list[i]) + "\n")
+    f.close()
+    
 
 def initialize_tensorflow(num_cores):
 
