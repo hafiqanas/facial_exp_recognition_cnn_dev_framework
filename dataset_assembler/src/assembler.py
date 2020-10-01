@@ -104,7 +104,7 @@ def _train_test_split(train_split, test_split, img_list, label_list):
 
 
 def prepare_data(directory, classes, npy_name):
-    
+
     """
         Converts data into a numpy format with the specified train and test
         split for CNN model baseline model training.
@@ -259,17 +259,18 @@ def main():
 
     """
 
-    prepare_data(FULL_DIRECTORY_CKPLUS, 7, "ckplus")
-    prepare_data(FULL_DIRECTORY_CKUBD, 7, "ckubd")
-    prepare_data(FULL_DIRECTORY_RAFDB, 7, "rafdb") 
-    prepare_data(FULL_DIRECTORY_RAFD, 7, "rafd")
-    prepare_data(FULL_DIRECTORY_KDEF, 7, "kdef") 
-    prepare_data(FULL_DIRECTORY_JAFFE, 7, "jaffe")
-    prepare_data(FULL_DIRECTORY_SFEW2, 7, "sfew2")
-    prepare_data(FULL_DIRECTORY_FER2013, 7, "fer2013")
-    prepare_data(FULL_DIRECTORY_EXPW, 7, "expw")
-    prepare_data(FULL_DIRECTORY_AFFECTNET, 7, "affectnet")
+    # prepare_data(FULL_DIRECTORY_CKPLUS, 7, "ckplus")
+    # prepare_data(FULL_DIRECTORY_CKUBD, 7, "ckubd")
+    # prepare_data(FULL_DIRECTORY_RAFDB, 7, "rafdb")
+    # prepare_data(FULL_DIRECTORY_RAFD, 7, "rafd")
+    # prepare_data(FULL_DIRECTORY_KDEF, 7, "kdef")
+    # prepare_data(FULL_DIRECTORY_JAFFE, 7, "jaffe")
+    # prepare_data(FULL_DIRECTORY_SFEW2, 7, "sfew2")
+    # prepare_data(FULL_DIRECTORY_FER2013, 7, "fer2013")
+    # prepare_data(FULL_DIRECTORY_EXPW, 7, "expw")
+    # prepare_data(FULL_DIRECTORY_AFFECTNET, 7, "affectnet")
     # prepare_data(FULL_DIRECTORY_EMOTIONET, 6, "emotionet")
+    #prepare_data(FULL_DIRECTORY_AFFWILD2, 7, "affwild2")
 
     # merge_data(["ckubd_train_images", "expw_train_images", \
     #     "ckubd_train_labels", "expw_train_labels"], \
