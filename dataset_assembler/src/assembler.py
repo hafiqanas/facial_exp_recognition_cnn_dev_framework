@@ -7,6 +7,7 @@ import glob
 import keras
 import numpy as np
 from random import shuffle
+from collections import OrderedDict
 
 owd = os.getcwd()
 
@@ -22,6 +23,7 @@ FULL_DIRECTORY_RAVDNESS = '../data/RAVDNESS/*/*'
 FULL_DIRECTORY_EXPW = '../data/expw-proper/image/*/*'
 FULL_DIRECTORY_AFFECTNET = '../data/affectnet/image/*/*'
 FULL_DIRECTORY_EMOTIONET = '../data/emotionet/image/*/*'
+FULL_DIRECTORY_AFFWILD2 = '../data/aff-wild2/image/*/*'
 
 IMG_ROWS = 48
 IMG_COLS = 48
@@ -122,45 +124,102 @@ def prepare_data(directory, classes, npy_name):
         _img_list[int(split_path[1])].append(path)
         _label_list[int(split_path[1])].append(split_path[1])
 
-    for i in range(len(_img_list)):      
+    for i in range(len(_img_list)):
         img_train, label_train, img_test, label_test, img_full, label_full = \
             _train_test_split(TRAIN_SPLIT, TEST_SPLIT, _img_list[i], \
                 _label_list[i])
-        
-        for j in range(len(img_train)):   
+
+        for j in range(len(img_train)):
             _img_train = image_preprocesing(img_train[j])
             _x_train.append(_img_train)
 
-        for j in range(len(label_train)):   
+        for j in range(len(label_train)):
             _label_train = labels_preprocessing(label_train[j], classes)
             _y_train.append(_label_train)
 
-        for j in range(len(img_test)):   
+        for j in range(len(img_test)):
             _img_test = image_preprocesing(img_test[j])
             _x_test.append(_img_test)
 
-        for j in range(len(label_test)):   
+        for j in range(len(label_test)):
             _label_train = labels_preprocessing(label_test[j], classes)
             _y_test.append(_label_train)
 
-        for j in range(len(img_full)):   
+        for j in range(len(img_full)):
             _img_full = image_preprocesing(img_full[j])
             _x_full.append(_img_full)
 
-        for j in range(len(label_full)):   
+        for j in range(len(label_full)):
             _label_full = labels_preprocessing(label_full[j], classes)
             _y_full.append(_label_full)
-        
+
     _x_train = img_list_to_npy(_x_train)
     _x_test = img_list_to_npy(_x_test)
     _x_full = img_list_to_npy(_x_full)
-    
+
     save_as_npy(_x_train, npy_name + "_train_images")
     save_as_npy(_y_train, npy_name + "_train_labels")
     save_as_npy(_x_test, npy_name + "_test_images")
     save_as_npy(_y_test, npy_name + "_test_labels")
     save_as_npy(_x_full, npy_name + "_full_images")
     save_as_npy(_y_full, npy_name + "_full_labels")
+
+def _remove_duplicate(item):
+    return list(OrderedDict.fromkeys(item))
+
+def _prepare_affwild2_testdata(directory, classes, npy_name):
+    """
+        Converts affwild2 test set data into a numpy format..
+
+        directory: full path to dataset directory
+        classes: total number of unique emotion labels (int)
+        npy_name: name of numpy file (string)
+    """
+    print(directory)
+    _img_list = [[], [], [], [], [], [], []]
+    _label_list = [[], [], [], [], [], [], []]
+    _x_full, _y_full = [], []
+
+    for path in glob.glob(directory):
+        split_path = path.split(os.sep)
+        _img_list[int(split_path[4])].append(path)
+        _label_list[int(split_path[4])].append(split_path[4])
+
+    for i in range(len(_img_list)):
+        img_full, label_full = _img_list[i], _label_list[i]
+
+        for j in range(len(img_full)):
+            _img_full = image_preprocesing(img_full[j])
+            _x_full.append(_img_full)
+
+        for j in range(len(label_full)):
+            _label_full = labels_preprocessing(label_full[j], classes)
+            _y_full.append(_label_full)
+
+    _x_full = img_list_to_npy(_x_full)
+
+    save_as_npy(_x_full, npy_name + "_full_images")
+    save_as_npy(_y_full, npy_name + "_full_labels")
+
+def prepare_affwild2(dir):
+
+    dirpath_list = []
+    _list = []
+    for subdir, dirs, files in os.walk(dir):
+        for dir in dirs:
+            dirpath = subdir
+            _list.append((dirpath))
+
+    dirpath_list = _remove_duplicate(_list)
+
+    for i in range(len(dirpath_list)):
+        if i == 0:
+            pass
+        else:
+            dir = dirpath_list[i] + "\*\*"
+            _name_list = dir.split(os.sep)
+            name = dir.split(os.sep)[len(_name_list) - 3]
+            _prepare_affwild2_testdata(dir, 7, str(name))
     
 def merge_data(npy_files, merged_img_name, merged_label_name):
 
@@ -219,6 +278,8 @@ def main():
     # merge_data(["ckubd_train_images", "fer2013_train_images", "expw_train_images", \
     #     "ckubd_train_labels", "fer2013_train_labels", "expw_train_labels"], \
     #     "merged_ckubd_fer2013_expw_train_images", "merged_ckubd_fer2013_expw_train_labels")
+
+    prepare_affwild2('..\\data\\aff-wild2_test')
     
 if __name__ == '__main__':
 
