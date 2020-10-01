@@ -1,4 +1,4 @@
-from warnings import simplefilter 
+from warnings import simplefilter
 simplefilter(action='ignore', category=FutureWarning)
 
 import os
@@ -38,13 +38,13 @@ def image_preprocesing(path):
 
         path: path to img
     """
-    
+
     img = cv2.imread(path)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     img = cv2.resize(img, (IMG_ROWS, IMG_COLS))
-    
+
     return img
-    
+
 def labels_preprocessing(emotion, classes):
 
     """
@@ -56,9 +56,9 @@ def labels_preprocessing(emotion, classes):
 
     _emotion = int(emotion)
     emotion = keras.utils.to_categorical(_emotion, classes)
-    
+
     return emotion
-    
+
 def img_list_to_npy(list):
 
     """
@@ -70,9 +70,9 @@ def img_list_to_npy(list):
     _npy = np.array(list)
     _npy = _npy.reshape(_npy.shape[0], IMG_ROWS, IMG_COLS, 1)
     npy = _npy.astype('float32')
-    
+
     return npy
-    
+
 def save_as_npy(npy, npy_name):
 
     """
@@ -84,10 +84,10 @@ def save_as_npy(npy, npy_name):
 
     if not os.path.exists(FEATURES_FOLDER):
         os.makedirs(FEATURES_FOLDER)
-    
+
     np.save(FEATURES_FOLDER + npy_name, npy)
 
-def _train_test_split(train_split, test_split, img_list, label_list):  
+def _train_test_split(train_split, test_split, img_list, label_list):
 
     """
         train_split & test_split accepts value 0.0 - 1.0 (0% - 100%)
@@ -168,6 +168,7 @@ def _remove_duplicate(item):
     return list(OrderedDict.fromkeys(item))
 
 def _prepare_affwild2_testdata(directory, classes, npy_name):
+
     """
         Converts affwild2 test set data into a numpy format..
 
@@ -175,7 +176,7 @@ def _prepare_affwild2_testdata(directory, classes, npy_name):
         classes: total number of unique emotion labels (int)
         npy_name: name of numpy file (string)
     """
-    print(directory)
+
     _img_list = [[], [], [], [], [], [], []]
     _label_list = [[], [], [], [], [], [], []]
     _x_full, _y_full = [], []
@@ -203,7 +204,10 @@ def _prepare_affwild2_testdata(directory, classes, npy_name):
 
 def prepare_affwild2(dir):
 
-    dirpath_list = []
+    """
+        Converts affwild2 test set data into a numpy format..
+    """
+
     _list = []
     for subdir, dirs, files in os.walk(dir):
         for dir in dirs:
@@ -220,7 +224,7 @@ def prepare_affwild2(dir):
             _name_list = dir.split(os.sep)
             name = dir.split(os.sep)[len(_name_list) - 3]
             _prepare_affwild2_testdata(dir, 7, str(name))
-    
+
 def merge_data(npy_files, merged_img_name, merged_label_name):
 
     """
@@ -230,20 +234,20 @@ def merge_data(npy_files, merged_img_name, merged_label_name):
         merged_img_name: name of merged image numpy file (string)
         merged_label_name: name of merged image' labels numpy file (string)
     """
-    
+
     merged_images, merged_labels = [], []
-    
+
     for i in range(len(npy_files)):
         if "images" in npy_files[i]:
             print(npy_files[i])
-            _images = np.load('../features/' + npy_files[i] + '.npy').tolist() 
+            _images = np.load('../features/' + npy_files[i] + '.npy').tolist()
             merged_images.extend(_images)
-        
+
         if "labels" in npy_files[i]:
             print(npy_files[i])
-            _labels = np.load('../features/' + npy_files[i] + '.npy').tolist() 
+            _labels = np.load('../features/' + npy_files[i] + '.npy').tolist()
             merged_labels.extend(_labels)
-    
+
     save_as_npy(merged_images, merged_img_name + '.npy')
     save_as_npy(merged_labels, merged_label_name + '.npy')
 
@@ -254,7 +258,7 @@ def main():
 
         Use prepare_data() function to convert single dataset into .npy format.
 
-        Use merge_data() function to merge multiple datasets into a single 
+        Use merge_data() function to merge multiple datasets into a single
         .npy format.
 
     """
@@ -276,12 +280,13 @@ def main():
     #     "ckubd_train_labels", "expw_train_labels"], \
     #     "merged_ckubd_expw_train_images", "merged_ckubd_expw_train_labels")
 
-    # merge_data(["ckubd_train_images", "fer2013_train_images", "expw_train_images", \
-    #     "ckubd_train_labels", "fer2013_train_labels", "expw_train_labels"], \
-    #     "merged_ckubd_fer2013_expw_train_images", "merged_ckubd_fer2013_expw_train_labels")
+    # merge_data(["ckubd_train_images", "fer2013_train_images", \
+    # "expw_train_images", "ckubd_train_labels", "fer2013_train_labels", \
+    # "expw_train_labels"], "merged_ckubd_fer2013_expw_train_images", \
+    # "merged_ckubd_fer2013_expw_train_labels")
 
     prepare_affwild2('..\\data\\aff-wild2_test')
-    
+
 if __name__ == '__main__':
 
     main()

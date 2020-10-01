@@ -7,9 +7,7 @@
     ## USAGE ##
 
     1. Within affwild2 dataset folder, extract the following zip files
-    ("Automatically_annotated_compressed", "Automatically_annotated_file_list",
-    "Manually_annotated_compressed", "Manually_Annotated_file_lists") and its
-    content.
+    ("cropped_aligned.zip") and all annotation files content.
     3. Move this script into the affwild2 folder and run the script.
 """
 
@@ -88,7 +86,7 @@ def get_labels(dir, label_list):
     """
 
     os.chdir(dir)
-    
+
     for subdir, dirs, files in os.walk(dir):
         for file in files:
             count = 1
@@ -113,7 +111,8 @@ def _create_dummy_annotation_file(dir, file_list, img_count_list):
 
     """
         Go through listed test file list and create annotation file for
-        each files according to the format of given training and validation annotation files.
+        each files according to the format of given training and validation
+        annotation files.
     """
 
     os.chdir(dir)
@@ -179,7 +178,8 @@ def _get_file_count_in_dir_list(dir_list):
 def setup_test_files(file, file_list, testing_img_dir_filepath_list):
 
     """
-        Setup annotation files for test set and create dummy expression value of "-1" for each image.
+        Setup annotation files for test set and create dummy expression value
+        of "0" for each image.
     """
 
     with open(file, "r") as fd:
@@ -201,17 +201,16 @@ def match_image_with_labels(img_name_list, img_filepath_list, \
     """
 
     for i in tqdm(range(len(img_name_list))):
-        #img_name = os.path.splitext(str(img_name_list[i]))[0]
-        #img_name = str(img_name).split('/')[1]
         img_name = img_name_list[i]
         for j in range(len(label_list)):
             label_name = label_list[j][0]
             label_cat = label_list[j][1]
             if img_name == label_name:
                 new_img_name = img_name_list[i].replace('/', '_') + ".jpg"
-                img_label_list.append([new_img_name, img_filepath_list[i], int(label_cat)])
+                img_label_list.append([new_img_name, img_filepath_list[i], \
+                                       int(label_cat)])
                 break
-                
+
 
 def arrange_files(dir):
 

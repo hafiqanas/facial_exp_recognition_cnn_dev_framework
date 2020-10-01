@@ -360,7 +360,7 @@ def test_CNN_K_Means(x_test, y_test, model_save_name, test_set_name):
     conf_mat_avg = conf_mat_avg / test_amount
 
     #print(y_true)
-    print(y_pred)
+    #print(y_pred)
 
     precision, recall, fscore, support = score(y_true, y_pred)
 
@@ -405,7 +405,7 @@ def test_CNN_K_Means(x_test, y_test, model_save_name, test_set_name):
     )
 
     plt.savefig("../results/train_" + str(model_save_name) + "-test_" + str(test_set_name) + ".png")
-    
+
 def test_ABAW2020_CNN_K_Means(x_test, y_test, model_save_name, test_set_name):
 
     conf_mat = []
@@ -447,7 +447,7 @@ def test_ABAW2020_CNN_K_Means(x_test, y_test, model_save_name, test_set_name):
     conf_mat_avg = conf_mat_avg / test_amount
 
     #print(y_true)
-    print(y_pred)
+    #print(y_pred)
 
     prediction_filename = test_set_name + "_predictions.txt"
     pred_list = y_pred.tolist()
@@ -458,7 +458,7 @@ def test_ABAW2020_CNN_K_Means(x_test, y_test, model_save_name, test_set_name):
     for i in range(len(pred_list)):
         f.write(str(pred_list[i]) + "\n")
     f.close()
-    
+
 
 def initialize_tensorflow(num_cores):
 
