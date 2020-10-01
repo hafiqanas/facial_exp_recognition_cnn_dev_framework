@@ -39,7 +39,7 @@ os.environ["PATH"] += os.pathsep + 'C:/Program Files (x86)/Graphviz2.38/bin/'
 
 owd = os.getcwd()
 
-NUM_CORES = 6
+NUM_CORES = 8
 NUM_CLASSES = 7
 LABELS = ['Neutral', 'Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise']
 BATCH_SIZE = 64
@@ -359,7 +359,7 @@ def test_CNN_K_Means(x_test, y_test, model_save_name, test_set_name):
 
     conf_mat_avg = conf_mat_avg / test_amount
 
-    print(y_true)
+    #print(y_true)
     print(y_pred)
 
     precision, recall, fscore, support = score(y_true, y_pred)
@@ -489,104 +489,20 @@ def perform_train_and_test():
     # ckplus_full_images = np.load('../features/ckplus_full_images.npy')
     # ckplus_full_labels = np.load('../features/ckplus_full_labels.npy')
 
-    # # ckubd
-    ckubd_train_images = np.load('../features/ckubd_train_images.npy')
-    ckubd_train_labels = np.load('../features/ckubd_train_labels.npy')
-    ckubd_test_images = np.load('../features/ckubd_test_images.npy')
-    ckubd_test_labels = np.load('../features/ckubd_test_labels.npy')
-    ckubd_full_images = np.load('../features/ckubd_full_images.npy')
-    ckubd_full_labels = np.load('../features/ckubd_full_labels.npy')
-
-    # # rafd
-    # rafd_train_images = np.load('../features/rafd_train_images.npy')
-    # rafd_train_labels = np.load('../features/rafd_train_labels.npy')
-    # rafd_test_images = np.load('../features/rafd_test_images.npy')
-    # rafd_test_labels = np.load('../features/rafd_test_labels.npy')
-    # rafd_full_images = np.load('../features/rafd_full_images.npy')
-    # rafd_full_labels = np.load('../features/rafd_full_labels.npy')
-
-    # # kdef
-    # kdef_train_images = np.load('../features/kdef_train_images.npy')
-    # kdef_train_labels = np.load('../features/kdef_train_labels.npy')
-    # kdef_test_images = np.load('../features/kdef_test_images.npy')
-    # kdef_test_labels = np.load('../features/kdef_test_labels.npy')
-    # kdef_full_images = np.load('../features/kdef_full_images.npy')
-    # kdef_full_labels = np.load('../features/kdef_full_labels.npy')
-
-    # # jaffe
-    # jaffe_train_images = np.load('../features/jaffe_train_images.npy')
-    # jaffe_train_labels = np.load('../features/jaffe_train_labels.npy')
-    # jaffe_test_images = np.load('../features/jaffe_test_images.npy')
-    # jaffe_test_labels = np.load('../features/jaffe_test_labels.npy')
-    # jaffe_full_images = np.load('../features/jaffe_full_images.npy')
-    # jaffe_full_labels = np.load('../features/jaffe_full_labels.npy')
-
-    # # sfew2
-    # sfew2_train_images = np.load('../features/sfew2_train_images.npy')
-    # sfew2_train_labels = np.load('../features/sfew2_train_labels.npy')
-    # sfew2_test_images = np.load('../features/sfew2_test_images.npy')
-    # sfew2_test_labels = np.load('../features/sfew2_test_labels.npy')
-    # sfew2_full_images = np.load('../features/sfew2_full_images.npy')
-    # sfew2_full_labels = np.load('../features/sfew2_full_labels.npy')
-
-    # # afew2018
-    # afew2018_train_images = np.load('../features/afew2018_train_images.npy')
-    # afew2018_train_labels = np.load('../features/afew2018_train_labels.npy')
-    # afew2018_test_images = np.load('../features/afew2018_test_images.npy')
-    # afew2018_test_labels = np.load('../features/afew2018_test_labels.npy')
-    # afew2018_full_images = np.load('../features/afew2018_full_images.npy')
-    # afew2018_full_labels = np.load('../features/afew2018_full_labels.npy')
-
-    # # fer2013
-    # fer2013_train_images = np.load('../features/fer2013_train_images.npy')
-    # fer2013_train_labels = np.load('../features/fer2013_train_labels.npy')
-    # fer2013_test_images = np.load('../features/fer2013_test_images.npy')
-    # fer2013_test_labels = np.load('../features/fer2013_test_labels.npy')
-    # fer2013_full_images = np.load('../features/fer2013_full_images.npy')
-    # fer2013_full_labels = np.load('../features/fer2013_full_labels.npy')
-
-    # # expw
-    # expw_train_images = np.load('../features/expw_train_images.npy')
-    # expw_train_labels = np.load('../features/expw_train_labels.npy')
-    # expw_test_images = np.load('../features/expw_test_images.npy')
-    # expw_test_labels = np.load('../features/expw_test_labels.npy')
-    # expw_full_images = np.load('../features/expw_full_images.npy')
-    # expw_full_labels = np.load('../features/expw_full_labels.npy')
-
-    # # # rafdb
-    # rafdb_train_images = np.load('../features/rafdb_train_images.npy')
-    # rafdb_train_labels = np.load('../features/rafdb_train_labels.npy')
-    # rafdb_test_images = np.load('../features/rafdb_test_images.npy')
-    # rafdb_test_labels = np.load('../features/rafdb_test_labels.npy')
-    # rafdb_full_images = np.load('../features/rafdb_full_images.npy')
-    # rafdb_full_labels = np.load('../features/rafdb_full_labels.npy')
-
-    # # # affectnet
-    # affectnet_train_images = np.load('../features/affectnet_train_images.npy')
-    # affectnet_train_labels = np.load('../features/affectnet_train_labels.npy')
-    # affectnet_test_images = np.load('../features/affectnet_test_images.npy')
-    # affectnet_test_labels = np.load('../features/affectnet_test_labels.npy')
-    # affectnet_full_images = np.load('../features/affectnet_full_images.npy')
-    # affectnet_full_labels = np.load('../features/affectnet_full_labels.npy')
-
     # Perform tests
     # SINGLE
-    # train_CNN_K_Means(ckubd_train_images, ckubd_train_labels, "ckubd")
-    # test_CNN_K_Means(ckplus_test_images, ckplus_test_labels, "ckplus", "ckplus")
-    test_CNN_K_Means(ckubd_test_images, ckubd_test_labels, "ckubd", "ckubd")
-    # test_CNN_K_Means(rafd_full_images, rafd_full_labels, "ckplus", "rafd")
-    # test_CNN_K_Means(kdef_full_images, kdef_full_labels, "ckplus", "kdef")
-    # test_CNN_K_Means(jaffe_full_images, jaffe_full_labels, "ckplus", "jaffe")
-    # test_CNN_K_Means(sfew2_full_images, sfew2_full_labels, "ckplus", "sfew2")
-    # test_CNN_K_Means(afew2018_full_images, afew2018_full_labels, "ckplus", "afew2018")
-    # test_CNN_K_Means(fer2013_full_images, fer2013_full_labels, "ckplus", "fer2013")
-    # test_CNN_K_Means(expw_full_images, expw_full_labels, "ckplus", "expw")
-    # test_CNN_K_Means(rafdb_full_images, rafdb_full_labels, "ckplus", "rafdb")
-    # test_CNN_K_Means(affectnet_full_images, affectnet_full_labels, "ckplus", "affectnet")
+    #train_CNN_K_Means(affwild2_train_images, affwild2_train_labels, "affwild2")
+    test_CNN_K_Means(ckubd_test_images, ckubd_test_labels, "affwild2", "ckplus")
+
+    # MERGED
+    #test_CNN_K_Means(affwild2_test_images, affwild2_test_labels, "fer2013_rafdb", "affwild2")
 
 def main():
 
     initialize_tensorflow(NUM_CORES)
+
+    if not os.path.exists('../results'):
+        os.makedirs('../results')
 
     perform_train_and_test()
 
